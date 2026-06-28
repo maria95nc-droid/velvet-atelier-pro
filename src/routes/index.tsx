@@ -16,9 +16,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import bridalFlatlayShoes from "@/assets/bridal-flatlay-shoes.jpg";
 import detalleMaquillajeOjos from "@/assets/detalle-maquillaje-ojos.jpg";
+import detallePendienteNovia from "@/assets/detalle-pendiente-novia.jpg";
 import detalleOjosInvitada from "@/assets/detalle-ojos-invitada.jpg";
 import isabelHeroBW from "@/assets/isabel-presentacion-blanco-negro.jpg";
 import maquillajeContraluz from "@/assets/maquillaje-contraluz.jpg";
+import maquillajeNoviaVestidoAzul from "@/assets/maquillaje-novia-vestido-azul.jpg";
 import maquillajeInvitadaMadre from "@/assets/maquillaje-invitada-madre.jpg";
 import maquillajeInvitadaVerde from "@/assets/maquillaje-invitada-verde.jpg";
 import maquillajeNoviaPerfil from "@/assets/maquillaje-novia-perfil.jpg";
@@ -297,9 +299,9 @@ function Services() {
       cta: "Reservar manicura",
       message:
         "Hola Isabel, me gustaría reservar una manicura semipermanente a domicilio. Fecha: ____. Zona: ____.",
-      image: productsFlatlay,
+      image: detallePendienteNovia,
       imageAlt:
-        "Productos de belleza, brochas y esmaltes para manicura semipermanente a domicilio.",
+        "Detalle elegante de preparación de novia con pendiente y acabado cuidado.",
     },
     {
       title: "Pedicura semipermanente",
@@ -308,8 +310,8 @@ function Services() {
       cta: "Consultar disponibilidad",
       message:
         "Hola Isabel, me gustaría consultar disponibilidad para una pedicura semipermanente. Fecha: ____.",
-      image: bridalFlatlayShoes,
-      imageAlt: "Detalle de zapatos de boda y ramo, ideal para servicios beauty antes del evento.",
+      image: productsFlatlay,
+      imageAlt: "Productos de belleza, brochas y esmaltes para manicura y pedicura semipermanente a domicilio.",
     },
     {
       title: "Pack novia beauty",
@@ -607,9 +609,9 @@ type GalleryItem = { label: string; src: string | null; alt?: string };
 
 const galleryItems: GalleryItem[] = [
   {
-    label: "Isabel Agüera Jiménez",
-    src: isabelHeroBW,
-    alt: "Retrato de presentación de Isabel Agüera Jiménez en blanco y negro.",
+    label: "Maquillaje de novia · vestido azul",
+    src: maquillajeNoviaVestidoAzul,
+    alt: "Isabel Agüera Jiménez maquillando a una novia mientras lleva vestido azul.",
   },
   {
     label: "Maquillaje de novia",
@@ -655,11 +657,6 @@ const galleryItems: GalleryItem[] = [
     label: "Resultado novia exterior",
     src: resultadoNoviaExterior,
     alt: "Resultado de maquillaje de novia en exterior.",
-  },
-  {
-    label: "Detalle de preparación",
-    src: bridalFlatlayShoes,
-    alt: "Ramo y zapatos de novia como detalle de preparación.",
   },
   {
     label: "Maquillaje a contraluz",
