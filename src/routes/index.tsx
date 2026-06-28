@@ -31,6 +31,13 @@ import productsFlatlay from "@/assets/gallery-flatlay.jpg";
 import resultadoMaquillajeInvitada from "@/assets/resultado-maquillaje-invitada.jpg";
 import resultadoNoviaCeremonia from "@/assets/resultado-novia-ceremonia.jpg";
 import resultadoNoviaExterior from "@/assets/resultado-novia-exterior.jpg";
+import heroIsabelColorVestidoRojo from "@/assets/hero-isabel-color-vestido-rojo.jpg";
+import galeriaMaria15 from "@/assets/galeria-maria-15.jpg";
+import galeriaMaria17 from "@/assets/galeria-maria-17.jpg";
+import servicioMaquillajeInvitadasEventos from "@/assets/servicio-maquillaje-invitadas-eventos.jpg";
+import servicioMaquillajeNoviaCeremonia from "@/assets/servicio-maquillaje-novia-ceremonia.jpg";
+import servicioPackInvitadaManicura from "@/assets/servicio-pack-invitada-manicura.jpg";
+import servicioPruebaMaquillajeNovia from "@/assets/servicio-prueba-maquillaje-novia.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -118,6 +125,66 @@ function Nav() {
 }
 
 /* ---------- HERO ---------- */
+function HeroImageRotator() {
+  const slides = [
+    {
+      src: isabelHeroBW,
+      alt: "Retrato de presentación de Isabel Agüera Jiménez en blanco y negro.",
+      position: "center 42%",
+    },
+    {
+      src: heroIsabelColorVestidoRojo,
+      alt: "Retrato luminoso de Isabel Agüera Jiménez como segunda imagen de presentación.",
+      position: "center 38%",
+    },
+  ];
+
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActive((current) => (current + 1) % slides.length);
+    }, 5200);
+
+    return () => window.clearInterval(interval);
+  }, [slides.length]);
+
+  return (
+    <div className="relative aspect-[3/4] overflow-hidden rounded-[2rem] shadow-[0_40px_120px_-60px_oklch(0.28_0.025_40_/_0.6)]">
+      {slides.map((slide, idx) => (
+        <img
+          key={slide.src}
+          src={slide.src}
+          alt={slide.alt}
+          width={1200}
+          height={1600}
+          loading={idx === 0 ? "eager" : "lazy"}
+          decoding="async"
+          style={{ objectPosition: slide.position }}
+          className={`absolute inset-0 w-full h-full object-cover transition-[opacity,transform,filter] duration-[1400ms] ease-out ${
+            idx === active
+              ? "opacity-100 scale-100 blur-0"
+              : "opacity-0 scale-[1.06] blur-[2px]"
+          }`}
+        />
+      ))}
+
+      <div className="absolute bottom-4 right-4 flex gap-2 rounded-full bg-background/70 backdrop-blur px-3 py-2 border border-border/70">
+        {slides.map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => setActive(idx)}
+            aria-label={`Ver imagen de presentación ${idx + 1}`}
+            className={`h-1.5 rounded-full transition-all ${
+              idx === active ? "w-6 bg-accent" : "w-1.5 bg-foreground/30 hover:bg-accent/60"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Hero() {
   return (
     <section id="top" className="relative overflow-hidden">
@@ -160,17 +227,7 @@ function Hero() {
         </div>
 
         <div className="md:col-span-6 order-1 md:order-2 relative">
-          <div className="relative aspect-[3/4] overflow-hidden rounded-[2rem] shadow-[0_40px_120px_-60px_oklch(0.28_0.025_40_/_0.6)]">
-            <img
-              src={isabelHeroBW}
-              alt="Retrato de presentación de Isabel Agüera Jiménez en blanco y negro."
-              width={1200}
-              height={1600}
-              loading="eager"
-              decoding="async"
-              className="absolute inset-0 w-full h-full object-cover object-[center_42%]"
-            />
-          </div>
+          <HeroImageRotator />
           <div className="hidden md:flex absolute -bottom-6 -left-6 items-center gap-3 bg-background/95 backdrop-blur border border-border rounded-2xl px-5 py-4 shadow-[0_20px_60px_-30px_oklch(0.28_0.025_40_/_0.4)]">
             <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-accent" />
@@ -269,8 +326,8 @@ function Services() {
       cta: "Consultar pack novia",
       message:
         "Hola Isabel, me gustaría consultar el pack de maquillaje para novia. Fecha de la boda: ____. Lugar: ____.",
-      image: noviaVeloMaquillaje,
-      imageAlt: "Isabel Agüera Jiménez maquillando a una novia el día de su boda.",
+      image: servicioMaquillajeNoviaCeremonia,
+      imageAlt: "Novia con maquillaje terminado y resultado elegante en el día de su boda.",
     },
     {
       title: "Prueba de maquillaje de novia",
@@ -279,8 +336,8 @@ function Services() {
       cta: "Reservar prueba",
       message:
         "Hola Isabel, me gustaría consultar disponibilidad para una prueba de maquillaje de novia. Fecha de la boda: ____. Lugar: ____.",
-      image: maquillajeNoviaPerfil,
-      imageAlt: "Prueba o retoque de maquillaje de novia con luz natural.",
+      image: servicioPruebaMaquillajeNovia,
+      imageAlt: "Prueba de maquillaje de novia con Isabel Agüera Jiménez antes del día de la boda.",
     },
     {
       title: "Maquillaje para invitadas y eventos",
@@ -289,8 +346,8 @@ function Services() {
       cta: "Reservar maquillaje",
       message:
         "Hola Isabel, me gustaría reservar maquillaje de invitada o evento. Fecha: ____. Lugar: ____. Nº de personas: ____.",
-      image: resultadoMaquillajeInvitada,
-      imageAlt: "Resultado de maquillaje elegante para invitada de boda o evento.",
+      image: servicioMaquillajeInvitadasEventos,
+      imageAlt: "Resultado de maquillaje para invitada o evento con acabado luminoso.",
     },
     {
       title: "Manicura semipermanente",
@@ -330,8 +387,8 @@ function Services() {
       cta: "Pedir presupuesto",
       message:
         "Hola Isabel, me gustaría un presupuesto para el pack invitada (maquillaje + manicura). Fecha: ____. Lugar: ____.",
-      image: maquillajeInvitadaVerde,
-      imageAlt: "Isabel Agüera Jiménez maquillando a una invitada a domicilio.",
+      image: servicioPackInvitadaManicura,
+      imageAlt: "Pack de maquillaje y manicura para invitada con estética limpia y elegante.",
     },
   ];
 
@@ -608,6 +665,16 @@ function BridalAmbient() {
 type GalleryItem = { label: string; src: string | null; alt?: string };
 
 const galleryItems: GalleryItem[] = [
+  {
+    label: "Novia preparada",
+    src: galeriaMaria17,
+    alt: "Novia con vestido blanco y velo durante la preparación del día de la boda.",
+  },
+  {
+    label: "Preparación de novia en casa",
+    src: galeriaMaria15,
+    alt: "Isabel Agüera Jiménez ayudando a una novia durante la preparación.",
+  },
   {
     label: "Maquillaje de novia · vestido azul",
     src: maquillajeNoviaVestidoAzul,
