@@ -21,7 +21,6 @@ import detalleOjosInvitada from "@/assets/detalle-ojos-invitada.jpg";
 import isabelHeroBW from "@/assets/isabel-presentacion-blanco-negro.jpg";
 import maquillajeContraluz from "@/assets/maquillaje-contraluz.jpg";
 import maquillajeNoviaVestidoAzul from "@/assets/maquillaje-novia-vestido-azul.jpg";
-import maquillajeInvitadaMadre from "@/assets/maquillaje-invitada-madre.jpg";
 import maquillajeInvitadaVerde from "@/assets/maquillaje-invitada-verde.jpg";
 import maquillajeNoviaPerfil from "@/assets/maquillaje-novia-perfil.jpg";
 import maquillajeNoviaPreparacion from "@/assets/maquillaje-novia-preparacion.jpg";
@@ -34,6 +33,9 @@ import resultadoNoviaExterior from "@/assets/resultado-novia-exterior.jpg";
 import heroIsabelColorVestidoRojo from "@/assets/hero-isabel-color-vestido-rojo.jpg";
 import galeriaMaria15 from "@/assets/galeria-maria-15.jpg";
 import galeriaMaria17 from "@/assets/galeria-maria-17.jpg";
+import galeriaSarayMaquillajeLabios from "@/assets/galeria-saray-maquillaje-labios.jpg";
+import galeriaSarayResultadoInvitada from "@/assets/galeria-saray-resultado-invitada.jpg";
+import galeriaSarayRetoquePolvos from "@/assets/galeria-saray-retoque-polvos.jpg";
 import servicioMaquillajeInvitadasEventos from "@/assets/servicio-maquillaje-invitadas-eventos.jpg";
 import servicioMaquillajeNoviaCeremonia from "@/assets/servicio-maquillaje-novia-ceremonia.jpg";
 import servicioPackInvitadaManicura from "@/assets/servicio-pack-invitada-manicura.jpg";
@@ -57,6 +59,8 @@ export const Route = createFileRoute("/")({
 const BRAND_NAME = "Isabel Agüera Jiménez";
 const WHATSAPP_NUMBER = "34644139558";
 const WHATSAPP_DISPLAY = "+34 644 13 95 58";
+const SITE_URL = "https://isabelaguerajimenez.es";
+const SITE_DISPLAY = "isabelaguerajimenez.es";
 const defaultMessage =
   "Hola Isabel, me gustaría consultar disponibilidad para maquillaje de novia/invitada a domicilio. Fecha: ____. Ubicación: ____. Nº de personas: ____.";
 const waLink = (message: string = defaultMessage) =>
@@ -162,9 +166,7 @@ function HeroImageRotator() {
           decoding="async"
           style={{ objectPosition: slide.position }}
           className={`absolute inset-0 w-full h-full object-cover transition-[opacity,transform,filter] duration-[1400ms] ease-out ${
-            idx === active
-              ? "opacity-100 scale-100 blur-0"
-              : "opacity-0 scale-[1.06] blur-[2px]"
+            idx === active ? "opacity-100 scale-100 blur-0" : "opacity-0 scale-[1.06] blur-[2px]"
           }`}
         />
       ))}
@@ -357,8 +359,7 @@ function Services() {
       message:
         "Hola Isabel, me gustaría reservar una manicura semipermanente a domicilio. Fecha: ____. Zona: ____.",
       image: detallePendienteNovia,
-      imageAlt:
-        "Detalle elegante de preparación de novia con pendiente y acabado cuidado.",
+      imageAlt: "Detalle elegante de preparación de novia con pendiente y acabado cuidado.",
     },
     {
       title: "Pedicura semipermanente",
@@ -368,7 +369,8 @@ function Services() {
       message:
         "Hola Isabel, me gustaría consultar disponibilidad para una pedicura semipermanente. Fecha: ____.",
       image: productsFlatlay,
-      imageAlt: "Productos de belleza, brochas y esmaltes para manicura y pedicura semipermanente a domicilio.",
+      imageAlt:
+        "Productos de belleza, brochas y esmaltes para manicura y pedicura semipermanente a domicilio.",
     },
     {
       title: "Pack novia beauty",
@@ -486,10 +488,6 @@ function PricingNote() {
 /* ---------- ISABEL SLIDER ---------- */
 function IsabelSlider() {
   const slides = [
-    {
-      src: maquillajeInvitadaMadre,
-      alt: "Isabel Agüera Jiménez maquillando a domicilio con luz natural.",
-    },
     {
       src: preparacionBodaHabitacion,
       alt: "Preparación de maquillaje de boda en habitación con material profesional.",
@@ -662,7 +660,7 @@ function BridalAmbient() {
 }
 
 /* ---------- GALLERY ---------- */
-type GalleryItem = { label: string; src: string | null; alt?: string };
+type GalleryItem = { label: string; src: string | null; alt?: string; position?: string };
 
 const galleryItems: GalleryItem[] = [
   {
@@ -674,6 +672,24 @@ const galleryItems: GalleryItem[] = [
     label: "Preparación de novia en casa",
     src: galeriaMaria15,
     alt: "Isabel Agüera Jiménez ayudando a una novia durante la preparación.",
+  },
+  {
+    label: "Preparación de invitada",
+    src: galeriaSarayMaquillajeLabios,
+    alt: "Isabel Agüera Jiménez maquillando los labios de una invitada durante la preparación de una boda.",
+    position: "center center",
+  },
+  {
+    label: "Resultado invitada natural",
+    src: galeriaSarayResultadoInvitada,
+    alt: "Invitada sonriendo con maquillaje terminado y acabado luminoso.",
+    position: "center center",
+  },
+  {
+    label: "Retoque final de maquillaje",
+    src: galeriaSarayRetoquePolvos,
+    alt: "Isabel Agüera Jiménez realizando un retoque final de maquillaje a una invitada.",
+    position: "40% center",
   },
   {
     label: "Maquillaje de novia · vestido azul",
@@ -763,6 +779,7 @@ function Gallery() {
                   src={item.src}
                   alt={item.alt ?? item.label}
                   loading="lazy"
+                  style={{ objectPosition: item.position ?? "center center" }}
                   className="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-[1.04]"
                 />
               ) : (
@@ -1014,6 +1031,12 @@ function Footer() {
           >
             <Phone className="w-4 h-4 text-accent" />
             WhatsApp: {WHATSAPP_DISPLAY}
+          </a>
+          <a
+            href={SITE_URL}
+            className="mt-3 block text-sm text-muted-foreground hover:text-accent transition"
+          >
+            Web: {SITE_DISPLAY}
           </a>
         </div>
       </div>
