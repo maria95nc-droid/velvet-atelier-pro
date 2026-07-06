@@ -32,6 +32,8 @@ import resultadoNoviaExterior from "@/assets/resultado-novia-exterior.jpg";
 import heroIsabelColorVestidoRojo from "@/assets/hero-isabel-color-vestido-rojo.jpg";
 import galeriaMaria15 from "@/assets/galeria-maria-15.jpg";
 import galeriaMaria17 from "@/assets/galeria-maria-17.jpg";
+import galeriaNoviaVentanaIsabel from "@/assets/galeria-novia-ventana-isabel.jpg";
+import galeriaNoviaRetoqueLabios from "@/assets/galeria-novia-retoque-labios.jpg";
 import galeriaSarayMaquillajeLabios from "@/assets/galeria-saray-maquillaje-labios.jpg";
 import galeriaSarayResultadoInvitada from "@/assets/galeria-saray-resultado-invitada.jpg";
 import galeriaSarayRetoquePolvos from "@/assets/galeria-saray-retoque-polvos.jpg";
@@ -659,6 +661,18 @@ const galleryItems: GalleryItem[] = [
     alt: "Isabel Agüera Jiménez ayudando a una novia durante la preparación.",
   },
   {
+    label: "Preparación junto a la ventana",
+    src: galeriaNoviaVentanaIsabel,
+    alt: "Isabel Agüera Jiménez acompañando a una novia durante la preparación junto a la ventana.",
+    position: "center center",
+  },
+  {
+    label: "Retoque de labios de novia",
+    src: galeriaNoviaRetoqueLabios,
+    alt: "Isabel Agüera Jiménez retocando el maquillaje de labios de una novia antes de la boda.",
+    position: "center center",
+  },
+  {
     label: "Preparación de invitada",
     src: galeriaSarayMaquillajeLabios,
     alt: "Isabel Agüera Jiménez maquillando los labios de una invitada durante la preparación de una boda.",
@@ -738,7 +752,15 @@ const galleryItems: GalleryItem[] = [
   },
 ];
 
+const INITIAL_GALLERY_ITEMS = 9;
+
 function Gallery() {
+  const [showAllGallery, setShowAllGallery] = useState(false);
+  const visibleGalleryItems = showAllGallery
+    ? galleryItems
+    : galleryItems.slice(0, INITIAL_GALLERY_ITEMS);
+  const hiddenGalleryItems = galleryItems.length - INITIAL_GALLERY_ITEMS;
+
   return (
     <section id="galeria" className="py-20 md:py-28">
       <div className="container-narrow">
@@ -749,12 +771,13 @@ function Gallery() {
           </h2>
           <p className="mt-5 text-muted-foreground text-base md:text-lg">
             Una selección de trabajos y momentos reales: preparación de novia, invitadas, resultado
-            final y ambiente bridal.
+            final y ambiente bridal. Para que la página cargue ligera, primero se muestra una
+            selección y puedes desplegar la galería completa con un clic.
           </p>
         </div>
 
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-          {galleryItems.map((item) => (
+          {visibleGalleryItems.map((item) => (
             <div
               key={item.label}
               className="group relative aspect-[4/5] overflow-hidden rounded-2xl border border-border bg-background shadow-[0_20px_60px_-40px_oklch(0.28_0.025_40_/_0.5)] hover:shadow-[0_30px_80px_-40px_oklch(0.28_0.025_40_/_0.55)] transition"
@@ -783,6 +806,24 @@ function Gallery() {
             </div>
           ))}
         </div>
+
+        {hiddenGalleryItems > 0 && (
+          <div className="mt-10 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setShowAllGallery((current) => !current)}
+              aria-expanded={showAllGallery}
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-foreground/15 bg-background px-6 py-3 text-sm tracking-wide hover:bg-secondary transition"
+            >
+              {showAllGallery
+                ? "Ver selección reducida"
+                : `Ver galería completa (${hiddenGalleryItems} fotos más)`}
+              <ChevronDown
+                className={`w-4 h-4 transition-transform ${showAllGallery ? "rotate-180" : ""}`}
+              />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
