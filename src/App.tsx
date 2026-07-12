@@ -10,6 +10,8 @@ import {
   Users,
   ChevronLeft,
   ChevronRight,
+  Menu,
+  X,
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -56,18 +58,23 @@ const waLink = (message: string = defaultMessage) =>
 export default function App() {
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <a href="#contenido" className="skip-link">
+        Saltar al contenido
+      </a>
       <Nav />
-      <Hero />
-      <TrustDifferential />
-      <Services />
-      <PricingNote />
-      <AboutIsabel />
-      <BridalAmbient />
-      <Gallery />
-      <GroupsService />
-      <Process />
-      <FAQ />
-      <FinalCTA />
+      <main id="contenido">
+        <Hero />
+        <TrustDifferential />
+        <Services />
+        <PricingNote />
+        <AboutIsabel />
+        <BridalAmbient />
+        <Gallery />
+        <GroupsService />
+        <Process />
+        <FAQ />
+        <FinalCTA />
+      </main>
       <Footer />
       <FloatingWhatsApp />
     </div>
@@ -76,6 +83,9 @@ export default function App() {
 
 /* ---------- NAV ---------- */
 function Nav() {
+  const [isOpen, setIsOpen] = useState(false);
+  const closeMenu = () => setIsOpen(false);
+
   return (
     <header className="absolute top-0 left-0 right-0 z-30">
       <div className="container-narrow flex items-center justify-between py-5">
@@ -110,7 +120,49 @@ function Nav() {
         >
           WhatsApp
         </a>
+        <button
+          type="button"
+          aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
+          aria-expanded={isOpen}
+          aria-controls="menu-movil"
+          onClick={() => setIsOpen((current) => !current)}
+          className="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-full border border-foreground/15 bg-background/70 backdrop-blur"
+        >
+          {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </div>
+      <nav
+        id="menu-movil"
+        aria-label="Navegación móvil"
+        className={`${isOpen ? "flex" : "hidden"} md:hidden mx-5 flex-col rounded-2xl border border-border bg-background/95 p-3 shadow-[0_20px_60px_-30px_oklch(0.28_0.025_40_/_0.45)] backdrop-blur`}
+      >
+        {[
+          ["Servicios", "#servicios"],
+          ["Sobre mí", "#sobre-mi"],
+          ["Galería", "#galeria"],
+          ["Proceso", "#proceso"],
+          ["FAQ", "#faq"],
+        ].map(([label, href]) => (
+          <a
+            key={href}
+            href={href}
+            onClick={closeMenu}
+            className="rounded-xl px-4 py-3 text-sm hover:bg-secondary"
+          >
+            {label}
+          </a>
+        ))}
+        <a
+          href={waLink()}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={closeMenu}
+          className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm text-primary-foreground"
+        >
+          <MessageCircle className="h-4 w-4" />
+          WhatsApp
+        </a>
+      </nav>
     </header>
   );
 }
@@ -131,14 +183,16 @@ function HeroImageRotator() {
   ];
 
   const [active, setActive] = useState(0);
+  const reduceMotion = usePrefersReducedMotion();
 
   useEffect(() => {
+    if (reduceMotion) return;
     const interval = window.setInterval(() => {
       setActive((current) => (current + 1) % slides.length);
     }, 5200);
 
     return () => window.clearInterval(interval);
-  }, [slides.length]);
+  }, [reduceMotion, slides.length]);
 
   return (
     <div className="relative aspect-[3/4] overflow-hidden rounded-[2rem] shadow-[0_40px_120px_-60px_oklch(0.28_0.025_40_/_0.6)]">
@@ -150,7 +204,9 @@ function HeroImageRotator() {
           width={1200}
           height={1600}
           loading={idx === 0 ? "eager" : "lazy"}
+          fetchPriority={idx === 0 ? "high" : "auto"}
           decoding="async"
+          aria-hidden={idx !== active}
           style={{ objectPosition: slide.position }}
           className={`absolute inset-0 w-full h-full object-cover transition-[opacity,transform,filter] duration-[1400ms] ease-out ${
             idx === active ? "opacity-100 scale-100 blur-0" : "opacity-0 scale-[1.06] blur-[2px]"
@@ -158,16 +214,21 @@ function HeroImageRotator() {
         />
       ))}
 
-      <div className="absolute bottom-4 right-4 flex gap-2 rounded-full bg-background/70 backdrop-blur px-3 py-2 border border-border/70">
+      <div className="absolute bottom-4 right-4 flex gap-1 rounded-full bg-background/70 backdrop-blur px-2 py-1 border border-border/70">
         {slides.map((_, idx) => (
           <button
             key={idx}
             onClick={() => setActive(idx)}
             aria-label={`Ver imagen de presentación ${idx + 1}`}
-            className={`h-1.5 rounded-full transition-all ${
-              idx === active ? "w-6 bg-accent" : "w-1.5 bg-foreground/30 hover:bg-accent/60"
-            }`}
-          />
+            aria-current={idx === active ? "true" : undefined}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full"
+          >
+            <span
+              className={`h-1.5 rounded-full transition-all ${
+                idx === active ? "w-6 bg-accent" : "w-1.5 bg-foreground/30"
+              }`}
+            />
+          </button>
         ))}
       </div>
     </div>
@@ -487,6 +548,7 @@ function IsabelSlider() {
 
   const [current, setCurrent] = useState(0);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const reduceMotion = usePrefersReducedMotion();
 
   const goTo = useCallback(
     (idx: number) => {
@@ -496,11 +558,12 @@ function IsabelSlider() {
   );
 
   useEffect(() => {
+    if (reduceMotion) return;
     timerRef.current = setTimeout(() => goTo(current + 1), 5000);
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [current, goTo]);
+  }, [current, goTo, reduceMotion]);
 
   return (
     <div className="relative">
@@ -512,6 +575,9 @@ function IsabelSlider() {
             alt={slide.alt}
             width={1200}
             height={1500}
+            loading="lazy"
+            decoding="async"
+            aria-hidden={idx !== current}
             className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
               idx === current ? "opacity-100" : "opacity-0"
             }`}
@@ -542,10 +608,15 @@ function IsabelSlider() {
             key={idx}
             onClick={() => goTo(idx)}
             aria-label={`Ir a imagen ${idx + 1}`}
-            className={`rounded-full transition-all ${
-              idx === current ? "w-5 h-2 bg-accent" : "w-2 h-2 bg-accent/30 hover:bg-accent/60"
-            }`}
-          />
+            aria-current={idx === current ? "true" : undefined}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full"
+          >
+            <span
+              className={`h-2 rounded-full transition-all ${
+                idx === current ? "w-5 bg-accent" : "w-2 bg-accent/30"
+              }`}
+            />
+          </button>
         ))}
       </div>
     </div>
@@ -776,7 +847,10 @@ function Gallery() {
           </p>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+        <div
+          id="galeria-trabajos"
+          className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6"
+        >
           {visibleGalleryItems.map((item) => (
             <div
               key={item.label}
@@ -787,6 +861,7 @@ function Gallery() {
                   src={item.src}
                   alt={item.alt ?? item.label}
                   loading="lazy"
+                  decoding="async"
                   style={{ objectPosition: item.position ?? "center center" }}
                   className="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-[1.04]"
                 />
@@ -813,6 +888,7 @@ function Gallery() {
               type="button"
               onClick={() => setShowAllGallery((current) => !current)}
               aria-expanded={showAllGallery}
+              aria-controls="galeria-trabajos"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-foreground/15 bg-background px-6 py-3 text-sm tracking-wide hover:bg-secondary transition"
             >
               {showAllGallery
@@ -966,7 +1042,10 @@ function FAQ() {
               return (
                 <li key={f.q}>
                   <button
+                    type="button"
                     onClick={() => setOpen(isOpen ? null : i)}
+                    aria-expanded={isOpen}
+                    aria-controls={`faq-respuesta-${i}`}
                     className="w-full flex items-center justify-between gap-6 py-5 text-left group cursor-pointer"
                   >
                     <span className="font-serif text-lg md:text-xl">{f.q}</span>
@@ -975,7 +1054,12 @@ function FAQ() {
                     />
                   </button>
                   {isOpen && (
-                    <p className="pb-6 pr-10 text-muted-foreground leading-relaxed">{f.a}</p>
+                    <p
+                      id={`faq-respuesta-${i}`}
+                      className="pb-6 pr-10 text-muted-foreground leading-relaxed"
+                    >
+                      {f.a}
+                    </p>
                   )}
                 </li>
               );
@@ -1087,4 +1171,19 @@ function FloatingWhatsApp() {
       <span className="hidden sm:inline">WhatsApp</span>
     </a>
   );
+}
+
+function usePrefersReducedMotion() {
+  const [reduceMotion, setReduceMotion] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updatePreference = () => setReduceMotion(mediaQuery.matches);
+
+    updatePreference();
+    mediaQuery.addEventListener("change", updatePreference);
+    return () => mediaQuery.removeEventListener("change", updatePreference);
+  }, []);
+
+  return reduceMotion;
 }
