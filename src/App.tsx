@@ -14,6 +14,7 @@ import {
   X,
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import AdminDashboard from "./AdminDashboard";
 
 import bridalFlatlayShoes from "@/assets/bridal-flatlay-shoes.jpg";
 import detalleMaquillajeOjos from "@/assets/detalle-maquillaje-ojos.jpg";
@@ -56,6 +57,10 @@ const waLink = (message: string = defaultMessage) =>
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
 export default function App() {
+  if (window.location.pathname.startsWith("/admin")) {
+    return <AdminDashboard />;
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <a href="#contenido" className="skip-link">
