@@ -17,7 +17,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import bridalFlatlayShoes from "@/assets/bridal-flatlay-shoes.jpg";
 import detalleMaquillajeOjos from "@/assets/detalle-maquillaje-ojos.jpg";
-import detallePendienteNovia from "@/assets/detalle-pendiente-novia.jpg";
 import detalleOjosInvitada from "@/assets/detalle-ojos-invitada.jpg";
 import isabelHeroBW from "@/assets/isabel-presentacion-blanco-negro.jpg";
 import maquillajeContraluz from "@/assets/maquillaje-contraluz.jpg";
@@ -372,7 +371,7 @@ function Services() {
     {
       title: "Maquillaje para novias",
       copy: "Maquillaje profesional de larga duración para novias que buscan un acabado elegante, natural y fotogénico, con preparación cuidadosa de la piel.",
-      price: "Desde 220 €",
+      price: "Desde 300 €",
       cta: "Consultar pack novia",
       message:
         "Hola Isabel, me gustaría consultar el pack de maquillaje para novia. Fecha de la boda: ____. Lugar: ____.",
@@ -380,14 +379,15 @@ function Services() {
       imageAlt: "Novia con maquillaje terminado y resultado elegante en el día de su boda.",
     },
     {
-      title: "Prueba de maquillaje de novia",
-      copy: "Sesión previa para definir piel, tonos, intensidad y estilo antes del día de la boda, evitando improvisaciones y ganando tranquilidad.",
+      title: "Prueba de maquillaje de novia o invitada",
+      copy: "Sesión previa para conocernos, definir piel, tonos, intensidad y estilo, y decidir con tranquilidad antes de reservar el servicio para la boda o el evento.",
       price: "Consultar",
       cta: "Reservar prueba",
       message:
-        "Hola Isabel, me gustaría consultar disponibilidad para una prueba de maquillaje de novia. Fecha de la boda: ____. Lugar: ____.",
+        "Hola Isabel, me gustaría consultar disponibilidad para una prueba de maquillaje (novia/invitada). Fecha del evento: ____. Lugar: ____.",
       image: servicioPruebaMaquillajeNovia,
-      imageAlt: "Prueba de maquillaje de novia con Isabel Agüera Jiménez antes del día de la boda.",
+      imageAlt:
+        "Prueba de maquillaje con Isabel Agüera Jiménez antes del día de la boda o del evento.",
     },
     {
       title: "Maquillaje para invitadas y eventos",
@@ -401,17 +401,17 @@ function Services() {
     },
     {
       title: "Manicura semipermanente",
-      copy: "Manicura semipermanente a domicilio para el día a día o para ocasiones especiales, realizada con higiene, precisión y cuidado.",
-      price: "Desde 25 €",
+      copy: "Manicura semipermanente a domicilio para el día a día o para ocasiones especiales. Solo esmaltado: 30 €. Completa: 40 €, con tratamiento de manos (exfoliación, hidratación y masaje).",
+      price: "Desde 30 €",
       cta: "Reservar manicura",
       message:
         "Hola Isabel, me gustaría reservar una manicura semipermanente a domicilio. Fecha: ____. Zona: ____.",
-      image: detallePendienteNovia,
-      imageAlt: "Detalle elegante de preparación de novia con pendiente y acabado cuidado.",
+      image: productsFlatlay,
+      imageAlt: "Esmaltes y productos de uñas para manicura semipermanente a domicilio.",
     },
     {
       title: "Pedicura semipermanente",
-      copy: "Pedicura semipermanente cómoda y elegante para eventos, viajes o cuidado personal.",
+      copy: "Pedicura semipermanente cómoda y elegante para eventos, viajes o cuidado personal. Solo esmaltado: 35 €. Completa: 45 €, con tratamiento de pies (exfoliación, hidratación y masaje).",
       price: "Desde 35 €",
       cta: "Consultar disponibilidad",
       message:
@@ -422,8 +422,8 @@ function Services() {
     },
     {
       title: "Pack novia beauty",
-      copy: "Pack pensado para novias que quieren resolver maquillaje y cuidado beauty con un único servicio a domicilio.",
-      price: "Desde 260 €",
+      copy: "Pack completo para llegar a la boda con la piel preparada y sin preocupaciones: estudio de piel y recomendación de productos adecuados para ti, preparación de la piel en los días previos, depilación y maquillaje de novia a domicilio el gran día.",
+      price: "Desde 350 €",
       cta: "Pedir presupuesto",
       message:
         "Hola Isabel, me gustaría un presupuesto para el pack novia beauty. Fecha de la boda: ____. Lugar: ____.",
@@ -433,7 +433,7 @@ function Services() {
     {
       title: "Pack invitada · maquillaje + manicura",
       copy: "Una opción completa para invitadas que quieren maquillaje y manicura en un mismo servicio.",
-      price: "Desde 100 €",
+      price: "Desde 105 €",
       cta: "Pedir presupuesto",
       message:
         "Hola Isabel, me gustaría un presupuesto para el pack invitada (maquillaje + manicura). Fecha: ____. Lugar: ____.",
@@ -487,6 +487,9 @@ function Services() {
                   {s.copy}
                 </p>
                 <p className="mt-5 font-serif text-lg text-accent">{s.price}</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  El precio puede variar según el domicilio.
+                </p>
                 <a
                   href={waLink(s.message)}
                   target="_blank"
